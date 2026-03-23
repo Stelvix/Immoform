@@ -23,6 +23,7 @@ final class WelcomeController extends AbstractController
         return $this->render('welcome/index.html.twig', [
             'controller_name' => 'WelcomeController',
             'userName' => $userName,
+            
          ]);
     }
 }

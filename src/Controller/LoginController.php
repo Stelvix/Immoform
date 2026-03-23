@@ -23,7 +23,6 @@ final class LoginController extends AbstractController
     public function login(Request $request): Response
     {
         // formulaire de connexion
-
         $form = $this->createForm(LoginType::class);
         $form->handleRequest($request);
 

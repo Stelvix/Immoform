@@ -83,7 +83,6 @@ public function signup(Request $request): Response
                     $this->addFlash('error', 'Email non trouvé dans la base de données.');
                     return $this->redirectToRoute('app_sign_up');
                 }
-
         } /* else {
         $this->addFlash('error', 'Formulaire invalide.');
         

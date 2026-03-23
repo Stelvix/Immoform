@@ -15,7 +15,7 @@ class LoginType extends AbstractType
         $builder
             ->add('email', TextType::class, [
                 'label' => 'Email',
-                'attr' => [
+                'attr' => [ 
                     'placeholder' => 'Entrez votre adresse email',
                     'class' => 'form-control',
                     'required' => true,
