@@ -20,8 +20,7 @@
 
     <br>
 
-<!-- Message de succès et d'erreur -->
-    {% for message in app.flashes('success') %}
+     {% for message in app.flashes('success') %}
         <div class="alert alert-success" role="alert">
             {{ message }}
         </div>
