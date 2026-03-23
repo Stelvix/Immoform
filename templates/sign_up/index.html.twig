@@ -17,4 +17,28 @@
             
         </div>
     </div>
+    <br>
+
+     {% for message in app.flashes('success') %}
+        <div class="alert alert-success" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+    {% for message in app.flashes('error') %}
+        <div class="alert alert-danger" role="alert">
+            {{ message }}
+        </div>
+    {% endfor %}
+
+    <div class="row mt-3">
+        <div class="col-md-6 offset-md-3 text-center">
+            <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à l'accueil</a>
+        </div>
+    </div>
+    <div class="row mt-3">
+         <div class="col-md-6 offset-md-3 text-center">
+            <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+        </div>
+    </div>
+</div>
 {% endblock %}

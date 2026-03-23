@@ -11,72 +11,89 @@ use App\Form\UserType;
 use App\Repository\ContactRepository;
 use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
-
-
-
-
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 
  final class SignUpController extends AbstractController
  {
-     public function __construct(private HttpClientInterface $httpClient, EntityManagerInterface $Entity )
+    private EntityManagerInterface $entityManager;
+   
+
+     public function __construct(private HttpClientInterface $httpClient, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
      {
+        $this->entityManager = $entityManager;
      }
 
      public function getContactInformation(): array
      {
-         $response = $this->httpClient->request(
-             'GET',
-             'http://172.16.126.1/api/Contact'
-         );
+        $url = $_ENV["API_URL_CONTACT"] ;
 
-         $statusCode = $response->getStatusCode();
-         if ($statusCode === 200) {
-             $content = $response->toArray();
+        if (!$url) {
+            throw new \RuntimeException("Erreur de l'URL de l\'API de contact. Veuillez vérifier votre configuration.");
+        }
+
+         $response = $this->httpClient->request('GET', $url);
+
+         if ($response->getStatusCode() === 200) {
+            return $response->toArray();
          }
-         return $content;
+         return [];
 
      }
 
-     #[Route('/signup', name: 'app_sign_up')]
-public function index(Request $request): Response
+#[Route('/signup', name: 'app_sign_up')]
+public function signup(Request $request): Response
 {
-    $form = $this->createForm(UserType::class);
-    $form->handleRequest($request);
+        $form = $this->createForm(UserType::class);
+        $form->handleRequest($request);
 
-    if ($form->isSubmitted() && $form->isValid()) {
-        $donnes = $form->getData();
-        $emailForm = $donnes->getEmail();
+        if ($form->isSubmitted() && $form->isValid()) {
+            $donnes = $form->getData();
+            $emailForm = $donnes->getEmail();
 
-        $contacts = $this->getContactInformation();
+            $contacts = $this->getContactInformation();
+            // on creer un booléen pour vérifier si l'email existe dans la base de données
+            $found = false;
+            foreach ($contacts as $contact) {
 
-        foreach ($contacts as $contact) {
-
-            // vérification email API
-            if ($emailForm === $contact["email"]) {
-
-                $this->addFlash('success', 'Email reconnu, inscription autorisée');
-
-                    // Enregistrement de l'utilisateur dans la base de données
+                // vérification email API
+              if($contact['email'] === $emailForm){
+                $found = true;
+                break;
+              } 
+            }
+            if($found){
                     $user = new Users();
                     $user->setEmail($emailForm);
-                    $Entity->persist($user);
-                    $Entity->flush();
 
+                    // Hashage du mot de passe
+                    $hashedPassword = password_hash($donnes->getPassword(), PASSWORD_BCRYPT);
+
+                    $user->setPassword($hashedPassword);
+                    $user->setName($donnes->getName());
+                    $user->setLname($donnes->getLname());
+
+                    $this->entityManager->persist($user);
+                    $this->entityManager->flush();
+
+                    $this->addFlash('success', 'Inscription réussie !');
                     return $this->redirectToRoute('app_login');
+                } else {
+                    $this->addFlash('error', 'Email non trouvé dans la base de données.');
+                    return $this->redirectToRoute('app_sign_up');
                 }
-            }
-
-        //aucun email trouvé
-        $this->addFlash('error', 'Email non autorisé');
-    }
+        } /* else {
+        $this->addFlash('error', 'Formulaire invalide.');
+        
+    } */
 
     return $this->render('sign_up/index.html.twig', [
         'form' => $form->createView(),
-    ]);
-}
+        ]);
+    }
 
 }
+
 
  
