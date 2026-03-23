@@ -1,0 +1,18 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello HomeController!{% endblock %}
+
+{% block body %}
+<h1>Bienvenue sur Immoform</h1>
+<p>Votre plateforme de gestion immobilière</p>
+<div class="container">
+    <div class="row">
+        <div class="col-md-6 text-center">
+            <a href="{{ path('app_login') }}" class="btn btn-primary">Se connecter</a>
+        </div>
+        <div class="col-md-6 text-center">
+            <a href="{{ path('app_sign_up') }}" class="btn btn-secondary">S'inscrire</a>
+        </div>
+    </div>
+</div>
+{% endblock %}
