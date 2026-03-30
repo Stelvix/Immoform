@@ -30,7 +30,6 @@ final class LoginController extends AbstractController
             $email = $data["email"];
             $password = $data["password"];
 
-            // On récupère l'email de l'uitlisateur
 
             $user = $this->usersRepo->findOneBy(['email' => $email]);
 

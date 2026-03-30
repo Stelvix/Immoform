@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
 final class WelcomeController extends AbstractController
 {
     #[Route('/welcome', name: 'app_welcome')]

@@ -23,7 +23,7 @@ class UserType extends AbstractType
                     'class' => 'form-control',
                     'required' => true,
                 ],
-            ]) 
+            ])
             ->add('lname', TextType::class, [
                 'label' => 'Nom',
                 'attr' => [
@@ -49,7 +49,6 @@ class UserType extends AbstractType
                 ],
             ]);
     }
-
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([

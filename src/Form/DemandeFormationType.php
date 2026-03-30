@@ -55,5 +55,4 @@ class DemandeFormationType extends AbstractType
             'agences' => [], // option pour passer les agences depuis le controller
         ]);
     }
-
 }

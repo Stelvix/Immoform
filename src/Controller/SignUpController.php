@@ -82,7 +82,7 @@ public function signup(Request $request): Response
 
                     $session = $request->getSession();
                     $session->set('contactID', $contact['contactID']);
-                    
+
                     dd($session->get('contactID')); // Debug pour vérifier que le contactID est bien stocké en session
 
                     return $this->redirectToRoute('app_login');
@@ -90,10 +90,7 @@ public function signup(Request $request): Response
                     $this->addFlash('error', 'Email non trouvé dans la base de données.');
                     return $this->redirectToRoute('app_sign_up');
                 }
-        } /* else {
-        $this->addFlash('error', 'Formulaire invalide.');
-
-    } */
+        }
 
     return $this->render('sign_up/index.html.twig', [
         'form' => $form->createView(),

@@ -66,7 +66,6 @@ final class DemandeFormationController extends AbstractController
             'form' => $form->createView(),
         ]);
     }
-
     /**
      * Récupère les agences associées à un contact via l'API
      */
