@@ -8,7 +8,6 @@ use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\HttpFoundation\Session\SessionInterface;
 use Symfony\Component\HttpFoundation\Request;
 
-
 final class WelcomeController extends AbstractController
 {
     #[Route('/welcome', name: 'app_welcome')]
@@ -18,12 +17,14 @@ final class WelcomeController extends AbstractController
     // je récupère la session de l'utilisateur pour afficher son nom dans la page d'accueil
     $session = $request->getSession();
     $userName = $session->get('userName');
- 
+    $userEmail = $session->get('userEmail');
+
 
         return $this->render('welcome/index.html.twig', [
             'controller_name' => 'WelcomeController',
             'userName' => $userName,
-            
+            'userEmail' => $userEmail,
+
          ]);
     }
 }
