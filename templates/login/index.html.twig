@@ -1,39 +1,119 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello LoginController!{% endblock %}
+{% block title %}
+    Connexion | Immoform
+{% endblock %}
 
 {% block body %}
-<h1>Formulaire de connexion</h1>
-<div class="container">
-    <div class="row">
-        <div class="col-md-6 offset-md-3">
-            {{ form_start(form) }}
-            {{ form_row(form.email) }}
-            {{ form_row(form.password) }}
-            <button type="submit" class="btn btn-primary">Se connecter</button>
-            {{ form_end(form) }}
-        </div>
-    </div>
+    <style>
+    body { background-color: #f8f9fa; }
+    .card-login {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-top: 80px; /* Un peu plus bas pour centrer verticalement */
+    }
+    .card-header {
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 15px 15px 0 0 !important;
+        text-align: center;
+        padding: 25px;
+    }
+    .btn-primary {
+        border-radius: 8px;
+        padding: 12px;
+        font-weight: bold;
+        transition: all 0.3s;
+    }
+    .btn-primary:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 5px 15px rgba(13, 110, 253, 0.3);
+    }
+    .form-control { border-radius: 8px; padding: 12px; border: 1px solid #dee2e6; }
+    .alert { border-radius: 10px; border: none; }
+    .icon-circle {
+        width: 60px;
+        height: 60px;
+        background: rgba(255,255,255,0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto 10px;
+    }
+</style>
 
-   <!-- Affichage des messages flash -->
-    {% for message in app.flashes('success') %}
-        <div class="alert alert-success mt-3">
-            {{ message }}
-        </div>
-    {% endfor %}
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-md-5 col-lg-4">
 
-    {% for message in app.flashes('error') %}
-        <div class="alert alert-danger mt-3">
-            {{ message }}
-        </div>
-    {% endfor %}
+                {# Messages Flash #}
+                {% for label, messages in app.flashes %}
+                    {% for message in messages %}
+                        <div class="alert alert-{{ label == 'error' ? 'danger' : (label == 'success' ? 'success' : 'info') }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endfor %}
 
-     
-    <div class="row mt-3">
-        <div class="col-md-6 offset-md-3 text-center">
-            <a href="{{ path('app_home') }}" class="btn btn-secondary">Retour à l'accueil</a>
-        </div>
+                <div class="card card-login">
+                    <div class="card-header">
+                        <div class="icon-circle">
+                            <i class="fas fa-lock fa-lg"></i>
+                        </div>
+                        <h3 class="mb-0">
+                            Connexion
+                        </h3>
+                        <small>
+                            Accédez à votre espace Immoform
+                        </small>
+                    </div>
+                    <div class="card-body p-4">
+                        {{ form_start(form) }}
+                        <div class="mb-3">
+                            {{ form_label(form.email, 'Votre Email') }}
+                            {{ form_widget(form.email, {'attr': {'class': 'form-control', 'placeholder': 'nom@exemple.com' }}
+                            ) }}
+                        </div>
 
-        <div class="col-md-6 offset-md-3 text-center mt-2">
-            <a href="{{ path('app_sign_up') }}" class="btn btn-link">Pas de compte ? Inscrivez-vous</a>
-{% endblock %}
+                        <div class="mb-4">
+                            <div class="d-flex justify-content-between">
+                                {{ form_label(form.password, 'Mot de passe') }}
+                            </div>
+                            {{ form_widget(form.password, {'attr': {'class': 'form-control', 'placeholder': '••••••••' }}
+                            ) }}
+                        </div>
+
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary btn-lg">
+                                <i class="fas fa-sign-in-alt me-2"></i>
+                                Se connecter
+                            </button>
+                        </div>
+                        {{ form_end(form) }}
+
+                        <hr class="my-4 text-muted">
+
+                            <div class="text-center">
+                                <p class="mb-2 text-muted">
+                                    Nouveau sur la plateforme ?
+                                </p>
+                                <a href="{{ path('app_sign_up') }}" class="text-decoration-none fw-bold text-primary">
+                                    Créer un compte
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="text-center mt-4">
+                        <a href="{{ path('app_home') }}" class="text-secondary text-decoration-none small">
+                            <i class="fas fa-arrow-left me-1"></i>
+                            Retour à l'accueil
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    {% endblock %}

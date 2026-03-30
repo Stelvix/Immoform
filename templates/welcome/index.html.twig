@@ -3,13 +3,29 @@
 {% block title %}Welcome page Immoform{% endblock %}
 
 {% block body %}
-<h1>Bienvenue sur Immoform</h1>
-<p>Votre plateforme de gestion immobilière</p>
-<div class="container">
-    <div class="row">
-<h1>Soummettez vos demande de formation et nous vous contacterons dans les plus brefs délais</h1>
-        <p>Bonjour {{ userName }}</p> 
-        </div>
+
+
+{% include 'Menu/_menu.html.twig' %}
+
+
+<div class="container mt-4">
+    <h1>Bienvenue sur Immoform</h1>
+    <p>Votre plateforme de gestion immobilière</p>
+
+    <div class="row mt-4">
+        <div class="col-md-12">
+            <h2>Soumettez vos demandes de formation et nous vous contacterons dans les plus brefs délais</h2>
+            <p>Bonjour {{userName}}</p>
+            <p>Vous vous êtes authentifié avec cet adresse mail : {{ userEmail }}</p>
         </div>
     </div>
+
+    {% for message in app.flashes('success') %}
+    <div class="alert alert-success">{{ message }}</div>
+{% endfor %}
+
+{% for message in app.flashes('error') %}
+    <div class="alert alert-danger">{{ message }}</div>
+{% endfor %}
+</div>
 {% endblock %}

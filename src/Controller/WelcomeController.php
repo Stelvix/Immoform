@@ -18,12 +18,14 @@ final class WelcomeController extends AbstractController
     // je récupère la session de l'utilisateur pour afficher son nom dans la page d'accueil
     $session = $request->getSession();
     $userName = $session->get('userName');
- 
+    $userEmail = $session->get('userEmail');
+
 
         return $this->render('welcome/index.html.twig', [
             'controller_name' => 'WelcomeController',
             'userName' => $userName,
-            
+            'userEmail' => $userEmail,
+
          ]);
     }
 }

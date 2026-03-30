@@ -9,13 +9,12 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use App\Form\LoginType;
 use App\Repository\UsersRepository;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 final class LoginController extends AbstractController
 {
 
- 
+
      public function __construct(private UsersRepository $usersRepo)
      {}
 
@@ -35,30 +34,30 @@ final class LoginController extends AbstractController
 
             $user = $this->usersRepo->findOneBy(['email' => $email]);
 
-            if(!$user){
-                $this->addFlash(
-                   'error',
-                   'Email non trouvé'
-                );
-                return $this->redirectToRoute('app_login');
-            } elseif(password_verify($password, $user->getPassword())){
-                $this->addFlash(
-                   'success',
-                   'Connexion reussie'
-                );
-                    // On stocke le nom de l'utilisateur dans la session pour l'afficher sur la page d'accueil
-                    $session = $request->getSession();
-                    $session->set('userName', $user->getName());
-                 return $this->redirectToRoute('app_welcome');
-            } else{
-                $this->addFlash(
-                   'error',
-                   'Mot de passe incoorect'
-                );
-                return $this->redirectToRoute('app_login');
+         if (!$user) {
+            $this->addFlash('error', 'Email non trouvé');
+
+            }  elseif (!password_verify($password, $user->getPassword())) {
+            $this->addFlash('error', 'Mot de passe incorrect');
+
+            } else {
+            // Connexion réussie
+            // Stockage des informations de l'utilisateur dans la session, mêmem les infos du contact venant de l'API
+            $session = $request->getSession();
+            $session->set('userName', $user->getName());
+            $session->set('userEmail', $user->getEmail());
+
+            // je get le contactID et je le stocke en session pour les prochaines requetes à l'API
+           $ContactID = $session->get('contactID');
+
+            $this->addFlash('success', 'Connexion réussie !');
+            return $this->redirectToRoute('app_welcome');
             }
+
+            // Si erreur → retourne sur login
+            return $this->redirectToRoute('app_login');
         }
-        
+
 
         return $this->render('login/index.html.twig', [
             'form' => $form->createView(),

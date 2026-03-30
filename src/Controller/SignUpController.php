@@ -18,7 +18,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
  final class SignUpController extends AbstractController
  {
     private EntityManagerInterface $entityManager;
-   
+
 
      public function __construct(private HttpClientInterface $httpClient, EntityManagerInterface $entityManager, UserPasswordHasherInterface $passwordHasher)
      {
@@ -61,7 +61,7 @@ public function signup(Request $request): Response
               if($contact['email'] === $emailForm){
                 $found = true;
                 break;
-              } 
+              }
             }
             if($found){
                     $user = new Users();
@@ -78,6 +78,13 @@ public function signup(Request $request): Response
                     $this->entityManager->flush();
 
                     $this->addFlash('success', 'Inscription réussie !');
+                    // je récupère l'id du contact pour le stocker dans la session
+
+                    $session = $request->getSession();
+                    $session->set('contactID', $contact['contactID']);
+                    
+                    dd($session->get('contactID')); // Debug pour vérifier que le contactID est bien stocké en session
+
                     return $this->redirectToRoute('app_login');
                 } else {
                     $this->addFlash('error', 'Email non trouvé dans la base de données.');
@@ -85,7 +92,7 @@ public function signup(Request $request): Response
                 }
         } /* else {
         $this->addFlash('error', 'Formulaire invalide.');
-        
+
     } */
 
     return $this->render('sign_up/index.html.twig', [
@@ -96,4 +103,3 @@ public function signup(Request $request): Response
 }
 
 
- 
