@@ -83,8 +83,7 @@ public function signup(Request $request): Response
                     $session = $request->getSession();
                     $session->set('contactID', $contact['contactID']);
 
-                    dd($session->get('contactID')); // Debug pour vérifier que le contactID est bien stocké en session
-
+ 
                     return $this->redirectToRoute('app_login');
                 } else {
                     $this->addFlash('error', 'Email non trouvé dans la base de données.');
