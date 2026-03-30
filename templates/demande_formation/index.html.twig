@@ -23,46 +23,62 @@
 
                 <div class="card card-signup mt-5">
                     <div class="card-header text-center">
-                        <h3>Demande de Formation</h3>
-                        <small>Soumettez votre demande et nous vous contacterons rapidement</small>
+                        <h3>
+                            Demande de Formation
+                        </h3>
+                        <small>
+                            Soumettez votre demande et nous vous contacterons rapidement
+                        </small>
                     </div>
                     <div class="card-body p-4">
                         {{ form_start(form) }}
 
                         <div class="mb-3">
                             {{ form_label(form.agenceID) }}
-                            {{ form_widget(form.agenceID, {'attr': {'class': 'form-control'}}) }}
+                            {{ form_widget(form.agenceID, {'attr': {'class': 'form-control' }}
+                            ) }}
                         </div>
 
                         <div class="mb-3">
                             {{ form_label(form.objet) }}
-                            {{ form_widget(form.objet, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Formation C# et .NET Core'}}) }}
+                            {{ form_widget(form.objet, {'attr': {'class': 'form-control', 'placeholder': 'Ex: Formation C# et .NET Core' }}
+                            ) }}
                         </div>
 
                         <div class="mb-3">
                             {{ form_label(form.typeFormation) }}
-                            {{ form_widget(form.typeFormation, {'attr': {'class': 'form-control', 'placeholder': 'Technique, Management...'}}) }}
+                            {{ form_widget(form.typeFormation, {'attr': {'class': 'form-control', 'placeholder': 'Technique, Management...' }}
+                            ) }}
                         </div>
 
                         <div class="mb-3">
                             {{ form_label(form.descriptionBesoins) }}
-                            {{ form_widget(form.descriptionBesoins, {'attr': {'class': 'form-control', 'placeholder': 'Décrivez vos besoins...'}}) }}
+                            {{ form_widget(form.descriptionBesoins, {'attr': {'class': 'form-control', 'placeholder': 'Décrivez vos besoins...' }}
+                            ) }}
                         </div>
 
                         <div class="row">
                             <div class="col-md-6 mb-3">
                                 {{ form_label(form.nombreParticipants) }}
-                                {{ form_widget(form.nombreParticipants, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_widget(form.nombreParticipants, {'attr': {'class': 'form-control' }}
+                                ) }}
                             </div>
                             <div class="col-md-6 mb-3">
                                 {{ form_label(form.dateSouhaitee) }}
-                                {{ form_widget(form.dateSouhaitee, {'attr': {'class': 'form-control'}}) }}
+                                {{ form_widget(form.dateSouhaitee, {'attr': {'class': 'form-control' }}
+                                ) }}
                             </div>
+                            <div class="col-md-6 mb-3">
+                                {{ form_label(form.statutDemande) }}
+                                {{ form_widget(form.statutDemande) }}
+                            </div>
+
                         </div>
 
                         <div class="d-grid gap-2">
                             <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-paper-plane me-2"></i> Envoyer la demande
+                                <i class="fas fa-paper-plane me-2"></i>
+                                Envoyer la demande
                             </button>
                         </div>
 
@@ -70,16 +86,18 @@
 
                         <hr class="my-4 text-muted">
 
-                        <div class="text-center">
-                            <a href="{{ path('app_welcome') }}" class="text-secondary small text-decoration-none">
-                                <i class="fas fa-arrow-left me-1"></i> Retour à l'accueil
-                            </a>
+                            <div class="text-center">
+                                <a href="{{ path('app_welcome') }}" class="text-secondary small text-decoration-none">
+                                    <i class="fas fa-arrow-left me-1"></i>
+                                    Retour à l'accueil
+                                </a>
+                            </div>
+
                         </div>
-
                     </div>
-                </div>
 
+                </div>
             </div>
         </div>
-    </div>
-{% endblock %}
+    {% endblock %}
+    

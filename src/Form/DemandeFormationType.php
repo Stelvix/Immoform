@@ -13,7 +13,9 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 class DemandeFormationType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
-    {
+    {   
+        // Récupération des agences passées en option depuis le controller
+        $agences = $options['agences'] ?? []; 
         $builder
             ->add('objet', TextType::class, [
                 'label' => 'Objet de la formation',
@@ -38,15 +40,22 @@ class DemandeFormationType extends AbstractType
             ])
             ->add('agenceID', ChoiceType::class, [
                 'label' => 'Agence',
-                'choices' => $options['agences'] ?? [], // tableau ['Nom agence' => ID]
+                'choices' => array_combine(
+                    array_column($agences, 'nom'),
+                    array_column($agences, 'agenceID')
+                ),
                 'placeholder' => 'Sélectionnez votre agence',
                 'attr' => ['class' => 'form-control'],
             ])
             ->add('statutDemande', TextType::class, [
                 'label' => 'Statut de la demande',
-                'attr' => ['class' => 'form-control', 'readonly' => true, 'value' => 'En attente'],
-                'mapped' => false // pas lié directement aux données envoyées, tu peux le fixer dans le controller
-            ]);
+                'data' => 'En attente',
+                'attr' => [
+                'class' => 'form-control',
+                'readonly' => 'readonly',
+    ],
+]);
+            
     }
 
     public function configureOptions(OptionsResolver $resolver): void
