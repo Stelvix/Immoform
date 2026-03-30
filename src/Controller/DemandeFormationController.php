@@ -14,6 +14,28 @@ final class DemandeFormationController extends AbstractController
     public function __construct(private HttpClientInterface $httpClient)
     {}
 
+
+    /**
+     * Récupère les agences associées à un contact via l'API
+     */
+    private function getAgences(int $contactID): array
+    {
+        $agences = [];
+
+        $url = $_ENV["API_GET_AGENCE_BY_CONTACT_ID"] . $contactID;
+        try {
+            $response = $this->httpClient->request('GET', $url);
+            if ($response->getStatusCode() === 200) {
+                return $response->toArray();
+             }
+        } catch (\Exception $e) {
+            $this->addFlash('error', 'Impossible de récupérer les agences : ' . $e->getMessage());
+        }
+
+        return [];
+    }
+
+
     #[Route('/demande-formation', name: 'app_demande_formation')]
     public function demandeFormation(Request $request): Response
     {
@@ -44,6 +66,10 @@ final class DemandeFormationController extends AbstractController
             $data['statutDemande'] = 'En attente';
             $data['formationID'] = null;
 
+            if($data['dateSouhaitee'] instanceof \DateTimeInterface){
+                $data['dateSouhaitee'] = $data['dateSouhaitee']->format('Y-m-d');
+            }
+
             try {
                 $response = $this->httpClient->request('POST', $_ENV["API_URL_DEMANDE_FORMATION"], [
                     'json' => $data
@@ -64,26 +90,8 @@ final class DemandeFormationController extends AbstractController
 
         return $this->render('demande_formation/index.html.twig', [
             'form' => $form->createView(),
+            'agences' => $agences,
         ]);
     }
-    /**
-     * Récupère les agences associées à un contact via l'API
-     */
-    private function getAgences(int $contactID): array
-    {
-        $url = $_ENV["API_URL_AGENCE_CONTACT"] . '?contactID=' . $contactID;
-
-        try {
-            $response = $this->httpClient->request('GET', $url);
-            if ($response->getStatusCode() === 200) {
-                $agencesApi = $response->toArray();
-
-                dd($agencesApi); // Debug pour voir la structure des données retournées
-            }
-        } catch (\Exception $e) {
-            $this->addFlash('error', 'Impossible de récupérer les agences : ' . $e->getMessage());
-        }
-
-        return [];
-    }
+    
 }
