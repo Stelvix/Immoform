@@ -45,11 +45,10 @@ final class LoginController extends AbstractController
             $session = $request->getSession();
             $session->set('userName', $user->getName());
             $session->set('userEmail', $user->getEmail());
+            $session->set('contactID', $user->getUsersIDsession());
 
-            // je get le contactID et je le stocke en session pour les prochaines requetes à l'API
-           $ContactID = $session->get('contactID');
-
-            $this->addFlash('success', 'Connexion réussie !');
+            // je get le contactID que j'ai mis en bdd et je le stocke en session pour les prochaines requetes à l'API     
+             $this->addFlash('success', 'Connexion réussie !');
             return $this->redirectToRoute('app_welcome');
             }
 

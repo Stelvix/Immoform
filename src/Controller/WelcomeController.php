@@ -13,11 +13,13 @@ final class WelcomeController extends AbstractController
     #[Route('/welcome', name: 'app_welcome')]
     public function welcome(Request $request): Response
     {
-
     // je récupère la session de l'utilisateur pour afficher son nom dans la page d'accueil
     $session = $request->getSession();
+
     $userName = $session->get('userName');
     $userEmail = $session->get('userEmail');
+    $contactID = $session->get('contactID');
+
 
 
         return $this->render('welcome/index.html.twig', [
