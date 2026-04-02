@@ -76,10 +76,40 @@
                         </div>
 
                         <div class="d-grid gap-2">
-                            <button type="submit" class="btn btn-primary btn-lg">
-                                <i class="fas fa-paper-plane me-2"></i>
-                                Envoyer la demande
+                            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+                                Confirmer la demande
                             </button>
+                        </div>
+
+                        <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+                            <div class="modal-dialog">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h1 class="modal-title fs-5" id="staticBackdropLabel">
+                                            Modal title
+                                        </h1>
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <p>
+                                            Voulez vous confirmer cette demande?
+                                        </p>
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+                                            <i class="fa-solid fa-ban fa-shake" style="color: rgb(255, 255, 255);"></i>
+
+                                            Annuler
+                                        </button>
+
+                                        <button type="submit" class="btn btn-primary " data-bs->
+                                            <i class="fa-solid fa-circle-check fa-shake" style="color: rgb(255, 255, 255);"></i>
+                                            Confirmer
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
                         </div>
 
                         {{ form_end(form) }}
@@ -98,6 +128,9 @@
 
                 </div>
             </div>
+        <!-- Button trigger modal -->
+
+        <!-- Modal -->
+
         </div>
     {% endblock %}
-    

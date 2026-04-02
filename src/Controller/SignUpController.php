@@ -7,8 +7,6 @@ use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Contracts\HttpClient\HttpClientInterface;
 use App\Form\UserType;
-// Ajoute du repository
-use App\Repository\ContactRepository;
 use App\Entity\Users;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
@@ -66,6 +64,7 @@ public function signup(Request $request): Response
             if($found){
                     $user = new Users();
                     $user->setEmail($emailForm);
+                    $user->setUsersIDsession($contact['contactID']);
 
                     // Hashage du mot de passe
                     $hashedPassword = password_hash($donnes->getPassword(), PASSWORD_BCRYPT);
@@ -78,12 +77,7 @@ public function signup(Request $request): Response
                     $this->entityManager->flush();
 
                     $this->addFlash('success', 'Inscription réussie !');
-                    // je récupère l'id du contact pour le stocker dans la session
 
-                    $session = $request->getSession();
-                    $session->set('contactID', $contact['contactID']);
-
- 
                     return $this->redirectToRoute('app_login');
                 } else {
                     $this->addFlash('error', 'Email non trouvé dans la base de données.');

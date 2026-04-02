@@ -1,0 +1,119 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}
+    Mes demandes | Immoform
+{% endblock %}
+
+{% block body %}
+
+    <style>
+    body { background-color: #f8f9fa; }
+
+    .card-main {
+        border: none;
+        border-radius: 15px;
+        box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        margin-top: 60px;
+    }
+
+    .card-header-custom {
+        background-color: #0d6efd;
+        color: white;
+        border-radius: 15px 15px 0 0;
+        text-align: center;
+        padding: 25px;
+    }
+    .card-image {
+        height: 150px;
+        overflow: hidden;
+        border-radius: 12px;
+        margin-bottom: 15px;
+    }
+    .card-image img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.3s;
+    }
+
+    .formation-card {
+        border: none;
+        border-radius: 12px;
+        box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        transition: all 0.3s;
+    }
+
+    .formation-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+    }
+
+    .alert {
+        border-radius: 10px;
+        border: none;
+    }
+</style>
+
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-10">
+
+                <div class="card card-main">
+
+                    <div class="card-header-custom">
+                        <h3 class="mb-0">
+                            Vos demandes de formations
+                        </h3>
+                        <small>
+                            Consultez vos demandes en cours
+                        </small>
+                    </div>
+
+                    <div class="card-body p-4">
+
+                        {% if formations is empty %}
+                            <div class="alert alert-info text-center">
+                                Vous n'avez aucune demande de formation pour le moment.
+                            </div>
+                        {% else %}
+                            <div class="row g-4">
+                                {% for formation in formations %}
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card formation-card h-100">
+                                            <div class="card-body">
+                                                <div class="card-status">
+                                                    <span class="badge bg-{{ formation.statutDemande == 'En cours' ? 'warning' : (formation.statutDemande == 'Acceptée' ? 'success' : 'danger') }}">
+
+                                                        {{ formation.statutDemande }}
+
+                                                    </span>
+                                                </div>
+                                                <div class="card-image">
+                                                    <img src="https://cdn.prod.website-files.com/692dce3fcd76cea624754db9/6967a10bd5080aa68d94967c_67af0928756a0b58207ced75_Frame-2071.webp" class="card-img-top" alt="Image de la formation"></div>
+
+                                                    <h5 class="card-title">
+                                                        {{ formation.objet }}
+                                                    </h5>
+                                                    <p class="card-text text-muted">
+                                                        {{ formation.descriptionBesoins }}
+                                                    </p>
+                                                </div>
+                                                <div class="card-footer bg-transparent border-0">
+                                                    <small class="text-muted">
+                                                        {{ formation.dateSouhaitee | date('d/m/Y') }}
+                                                    </small>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    {% endfor %}
+                                </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+    {% endblock %}

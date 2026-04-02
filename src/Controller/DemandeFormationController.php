@@ -29,8 +29,7 @@ final class DemandeFormationController extends AbstractController
                 return $response->toArray();
              }
         } catch (\Exception $e) {
-            $this->addFlash('error', 'Impossible de récupérer les agences : ' . $e->getMessage());
-        }
+throw new \Exception('Impossible de récupérer les agences');        }
 
         return [];
     }
