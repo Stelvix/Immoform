@@ -16,12 +16,13 @@ final class VoirDemandeFormationsController extends AbstractController
         }
 
         // je creer une focntion pour récuperer les demandes de formations en fonction de l'id du contact connecté
-        private function getDemandeFormationById(int $ContactID): array 
+        private function getDemandeFormationById(int $ContactID): array
         {
 
             $formation =[];
 
             $url = $_ENV["API_GET_FORMATION_BY_CONTACT_ID"] . $ContactID;
+
             try{
                 $response = $this->httpClient->request('GET', $url);
                 if($response->getStatusCode() === 200){
@@ -47,13 +48,19 @@ throw new \Exception('Impossible de récupérer les formations');            }
            'error',
            "Impossible d'afficher vos demandes"
         );
+        return $this->redirectToRoute('app_welcome');
     }
-        // on assgen au tableau formation les formations qui viennent de l'API
         $formation = $this->getDemandeFormationById($ContactID);
- 
+
+        if(empty($formation)){
+            $this->addFlash(
+                'error',
+                "Aucune demande de formation trouvée"
+            );
+            return $this->redirectToRoute('app_welcome');
+        }
         return $this->render('voir_demande_formations/index.html.twig', [
-            'controller_name' => 'VoirDemandeFormationsController',
             'formations' => $formation,
-        ]);
+         ]);
     }
 }
